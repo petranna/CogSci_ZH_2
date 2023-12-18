@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Termékek statisztikája</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+  <!-- Cím, szöveg és kép hozzáadása -->
+  <div class="title">
+    <h1>Kérem adja meg 5 terméknek a nevét és az árát!</h1>
+  </div>
+
+  <div class="body">
+    <p>Az alábbi szövegdobozokban adjon meg az ön által választott, boltban kapható 5 terméknek az árát. A program megmondja mely ezek közül a legolcsóbb, 
+      továbbá kiszámolja a termékek átlagárát és az átlagok szórását.</p>
+  </div>
+
+  <img src="termekek.jpg" alt="teli bevásárolókosár">
+
+  <!-- Szövegdobozok a terméknevek és árak megadásához -->
+  <div>
+    <label for="product1">1. Termék neve:</label>
+    <input type="text" id="product1">
+    <label for="price1">1. Termék ára:</label>
+    <input type="number" id="price1">
+  </div>
+
+  <div>
+    <label for="product2">2. Termék neve:</label>
+    <input type="text" id="product2">
+    <label for="price2">2. Termék ára:</label>
+    <input type="number" id="price2">
+  </div>
+
+  <div>
+    <label for="product3">3. Termék neve:</label>
+    <input type="text" id="product3">
+    <label for="price3">3. Termék ára:</label>
+    <input type="number" id="price3">
+  </div>
+
+  <div>
+    <label for="product4">4. Termék neve:</label>
+    <input type="text" id="product4">
+    <label for="price4">4. Termék ára:</label>
+    <input type="number" id="price4">
+  </div>
+
+  <div>
+    <label for="product5">5. Termék neve:</label>
+    <input type="text" id="product5">
+    <label for="price5">5. Termék ára:</label>
+    <input type="number" id="price5">
+  </div>
+
+  <!-- Gomb a számítások elindításához -->
+  <div>
+    <button onclick="processPrices()">Számítások elindítása</button>
+  </div>
+
+  <!-- Eredmények megjelenítése -->
+  <div id="results">
+    <h2>Statisztika</h2>
+    <p id="cheapestProduct">Legolcsóbb termék: </p>
+    <p id="averagePrice">Átlagár: </p>
+    <p id="priceDeviation">Árak szórása: </p>
+  </div>
+
+  <!-- A script-et nem sikerült a külön file-ból behívni, így végül itt hagytam. Továbbá nem sikerült önállóan jól megoldani, így segítséget használtam.-->
+  <script>
+    function processPrices() {
+      const productNames = [];
+      const productPrices = [];
+
+      // Termékek adatainak begyűjtése
+      for (let i = 1; i <= 5; i++) {
+        const nameInput = document.getElementById(`product${i}`);
+        const priceInput = document.getElementById(`price${i}`);
+
+        const name = nameInput.value.trim();
+        const price = parseFloat(priceInput.value);
+
+        // Érvényes adatok esetén az árat hozzáadjuk a tömbhöz
+        if (!isNaN(price)) {
+          productNames.push(name);
+          productPrices.push(price);
+        }
+      }
+
+      // Számítások végrehajtása és eredmények megjelenítése
+      displayResults(productNames, productPrices);
+    }
+
+    function displayResults(names, prices) {
+      const cheapestProduct = findCheapestProduct(names, prices);
+      const averagePrice = calculateAveragePrice(prices);
+      const priceDeviation = calculatePriceDeviation(prices);
+
+      // Eredmények megjelenítése a HTML-ben
+      document.getElementById("cheapestProduct").textContent = `Legolcsóbb termék: ${cheapestProduct}`;
+      document.getElementById("averagePrice").textContent = `Átlagár: ${averagePrice.toFixed(2)}`;
+      document.getElementById("priceDeviation").textContent = `Árak szórása: ${priceDeviation.toFixed(2)}`;
+    }
+
+    function findCheapestProduct(names, prices) {
+      const minPrice = Math.min(...prices);
+      const index = prices.indexOf(minPrice);
+      return names[index];
+    }
+
+    function calculateAveragePrice(prices) {
+      const sum = prices.reduce((acc, price) => acc + price, 0);
+      return sum / prices.length;
+    }
+
+    function calculatePriceDeviation(prices) {
+      const average = calculateAveragePrice(prices);
+      const squaredDifferences = prices.map((price) => Math.pow(price - average, 2));
+      const sumSquaredDiff = squaredDifferences.reduce((acc, diff) => acc + diff, 0);
+      return Math.sqrt(sumSquaredDiff / prices.length);
+    }
+  </script>
+
+</body>
+
+</html>

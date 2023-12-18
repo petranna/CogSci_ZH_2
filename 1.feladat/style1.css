@@ -1,0 +1,23 @@
+body {
+    background-color: #fF99CC;
+        opacity: 0.7;
+    }
+
+h1 {color: black;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin-left: 250px;
+}
+
+p {color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+        
+img {
+    height: 300px;
+    width: 500px;
+    margin-left: 150px;
+    margin-right: 200px;
+}
+
